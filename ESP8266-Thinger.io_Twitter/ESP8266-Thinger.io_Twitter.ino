@@ -15,7 +15,7 @@
 ThingerESP8266 thing(USERNAME, DEVICE_ID, DEVICE_CREDENTIAL);
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   thing.add_wifi(SSID, SSID_PASSWORD);
   Serial.println("connected?");
   
