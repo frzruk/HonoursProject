@@ -50,17 +50,17 @@ void loop() {
     return;
   }
 
-  // This dumps the Unique ID of the NFC Chip in the phone
+  // Output information to the Serial Monitor
   Serial.print(F("Card UID:"));
   dumpByteArray(rfid.uid.uidByte, rfid.uid.size);
-
-  // This dumps the PICC Type of the card
+  Serial.println();
   Serial.print(F(" PICC type: "));
   MFRC522::PICC_Type piccType = rfid.PICC_GetType(rfid.uid.sak);
   Serial.println(rfid.PICC_GetTypeName(piccType));
 
   
   // Start to write data to the new RFID tag in the code below
+  
 
 
   // Write information to variables and store on new RFID Marble
