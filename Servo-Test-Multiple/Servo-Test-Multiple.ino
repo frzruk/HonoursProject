@@ -33,7 +33,10 @@ int x = 0;
 */
 
 void setup() {
+  Serial.begin(9600);
+  
   pinMode(buttonPin, INPUT);
+  
   // Attach each of the servos
   servo[0].attach(A0);
   servo[1].attach(A1);
@@ -48,25 +51,28 @@ void setup() {
   servo[10].attach(10);
   servo[11].attach(11);
 
-  for(int i = 0; i < 12; i++)
+  for (int i = 0; i < 12; i++)
     servo[i].write(90);
 }
 void loop() {
   // Get input of followers and following from instagram via "RFID"
   //map(var, fromLow, fromHigh, toLow, toHigh)
 
+  // Read position of all the servos
+  for (int i = 0; i < 12; i++)
+  {
+    pos[i] = servo[i].read();]
+    Serial.println("Servo Position:" servo[i]);
+  }
   buttonState = digitalRead(buttonPin);
-  if(buttonState = HIGH) {
+  
+  if (buttonState = HIGH) {
     curFollowers = followers[x];
     curFollowing = following[x];
-    
-    for(int i = 0; i < 12; i++)
-    {
-      pos[i] = servo[i].read();
-    }
+
     // Pair #1
-    servo[0].write(map(curFollowers,0,10000,30,60));
-    servo[1].write(map(curFollowing,0,10000,30,60));
+    servo[0].write(map(curFollowers, 0, 10000, 30, 60));
+    servo[1].write(map(curFollowing, 0, 10000, 30, 60));
 
     // Pair #2
     servo[2].write(pos[0]);
@@ -88,7 +94,7 @@ void loop() {
     servo[10].write(pos[8]);
     servo[11].write(pos[9]);
 
-    x++;
+    x = x+1;
   }
   //  map the number of followers and following to a normalised range of the servos
   //    set servo[0] to number of followers
