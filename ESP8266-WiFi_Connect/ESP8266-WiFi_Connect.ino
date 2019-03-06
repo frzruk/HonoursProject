@@ -1,7 +1,7 @@
 /* Lets Connect to WiFi */
 #include <ESP8266WiFi.h>
-const char* ssid = "FY";
-const char* password = "wifi1212";
+const char* ssid = "StudentResidences";
+const char* password = "";
 const char* host = "wifitest.adafruit.com";
 
 void setup() {
