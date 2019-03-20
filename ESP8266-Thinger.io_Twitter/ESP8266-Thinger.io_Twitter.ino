@@ -9,8 +9,8 @@
 #define DEVICE_ID "esp8266_huzzah"
 #define DEVICE_CREDENTIAL "5tFfA#zZbN$%"
 
-#define SSID "FY"
-#define SSID_PASSWORD "wifi1212"
+#define SSID "StudentResidences"
+#define SSID_PASSWORD ""
 
 ThingerESP8266 thing(USERNAME, DEVICE_ID, DEVICE_CREDENTIAL);
 
