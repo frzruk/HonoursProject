@@ -7,17 +7,17 @@ int pos = 0; // Initialise an array of position integers
 
 void setup() {  
   // Attach each of the 4 servos
-    servo.attach(A3); // Servos attached to pin 3, 4, 5, 6
+    servo.attach(10); // Servos attached to pin 3, 4, 5, 6
 }
 void loop() {
   // put your main code here, to run repeatedly:
-  for (pos = 150; pos <= 180; pos++) {
+  for (pos = 0; pos <= 90; pos++) {
     servo.write(pos);
-    delay(15);
+    delay(30);
   }
-  for(pos = 180; pos >= 150; pos--)
+  for(pos = 0; pos >= 90; pos--)
   {
     servo.write(pos);
-    delay(15);
+    delay(50);
   }
 }
