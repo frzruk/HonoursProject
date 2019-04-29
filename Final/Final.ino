@@ -9,8 +9,10 @@
 #define USERNAME "frzruk" // Thinger Username
 #define DEVICE_ID "esp8266_huzzah" // Thinger Device ID
 #define DEVICE_CREDENTIAL "5tFfA#zZbN$%" // Key to Authenticate to Thinger
-#define SSID "StudentResidences" // SSID of the WiFi
-#define SSID_PASSWORD "" // Password of the WiFi
+//#define SSID "StudentResidences" // SSID of the WiFi
+#define SSID "NOWTV372E1"
+#define SSID_PASSWORD "QFRBTWSSYS"
+//#define SSID_PASSWORD "" // Password of the WiFi
 #define MAX_DEGREES 90
 #define MIN_DEGREES 0
 
@@ -30,20 +32,19 @@ uint8_t email = 0; // Number of Email notifications (%Emai in Tasker)
 
 void setup() {
   Serial.begin(115200); // Open the Serial Channel for debug and testing purposes
-  //for(int i = 0; i < 8; i++) {
-    //servoReset(i); }
+
+  // Email = 5
+  // Insta = 4
+  // Facebook = 3
+  // Messenger = 2
+  // Whatsapp = 1
 
   thing.add_wifi(SSID, SSID_PASSWORD); // Connect the board to WiFi
   servo[0].attach(4); // Attach the first servo to pin 4
   servo[1].attach(5); // Attach the first servo to pin 4
   servo[2].attach(2); // Attach the first servo to pin 4
   servo[3].attach(16); // Attach the first servo to pin 4
-  servo[4].attach(14); // Attach the first servo to pin 4
-//  servo[5].attach(15); // Attach the first servo to pin 4
-//  servo[6].attach(13); // Attach the first servo to pin 4
-//  servo[7].attach(12); // Attach the first servo to pin 4
-
-
+  servo[4].attach(15); // Attach the first servo to pin 4
 
   thing["nots"] << [] (pson & in) { // The resource "nots" is an input resource, as marked by <<
     /** Recieve input resources **/
@@ -56,52 +57,42 @@ void setup() {
     snap = in["Snapchat"]; // Get the input of the number of Snapchat notifications
     email = in["Email"]; // Get the input of the number of Gmail notifications
 
-    Serial.print("Messenger Notifications - "); // Print Facebook Messenger notifications
-    Serial.println(fbMessenger);
-    handleServos(0, fbMessenger, 15); // Move the servos (ServoNum, Notification Count, Degrees to move)
-
     Serial.print("WhatsApp Notifications - "); // Print WhatsApp Notifications
     Serial.println(whatsApp);
-    handleServos(1, whatsApp, 15); // Move the servos (ServoNum, Notification Count, Degrees to move)
+    servo[0].write(90 - (whatsApp * 5));
+    //handleServos(0, whatsApp, 5);
+    //servo[0].write(90 - (whatsApp * 5));
 
-    Serial.print("Instagram Notifications - "); // Print Instagram Messenger notifications
-    Serial.println(insta);
-    handleServos(2, insta, 15); // Move the servos (ServoNum, Notification Count, Degrees to move)
-
-    Serial.print("Twitter Notifications - "); // Print Twitter notifications
-    Serial.println(twitter);
-    handleServos(3, twitter, 15); // Move the servos (ServoNum, Notification Count, Degrees to move)
-
-    Serial.print("Text Message Notifications - "); // Text Message notifications
-    Serial.println(texts);
- //   handleServos(4, texts, 15); // Move the servos (ServoNum, Notification Count, Degrees to move)
+    Serial.print("Messenger Notifications - "); // Print Facebook Messenger notifications
+    Serial.println(fbMessenger);
+    //  handleServos(1, fbMessenger, 5);
+    servo[1].write(90 - (fbMessenger * 5));
+    //servo[1].write(90 - (fbMessenger * 5));
 
     Serial.print("Facebook Notifications - "); // Print Facebook notifications
     Serial.println(facebook);
-//    handleServos(5, facebook, 15); // Move the servos (ServoNum, Notification Count, Degrees to move)
+    servo[2].write(90 - (facebook * 5));
+    //  handleServos(2, facebook, 5);
+    //servo[3].write(90 - (facebook * 5));
 
-    Serial.print("Snapchat Notifications - "); // Print Snapchat notifications
-    Serial.println(snap);
-//    handleServos(6, snap, 15); // Move the servos (ServoNum, Notification Count, Degrees to move)
+    Serial.print("Instagram Notifications - "); // Print Instagram Messenger notifications
+    Serial.println(insta);
+    //   handleServos(3, insta, 5);
+    servo[3].write(90 - (insta * 5));
+    //servo[2].write(90 - (insta * 5));
 
     Serial.print("Email Notifications - "); // Print Email notifications
     Serial.println(email);
-//    handleServos(7, email, 15); // Move the servos (ServoNum, Notification Count, Degrees to move)
+    // handleServos(4, email, 5);
+    servo[4].write(90 - (email * 5));
+    //servo[4].write(90 - (email * 5));
   };
 }
 
 void handleServos(int servoNum, int notificationNum, int mult) {
-  if (servo[servoNum].read() < MAX_DEGREES)
-    servo[servoNum].write(notificationNum * mult); // Move servo a multiplication of degrees
-  else if (servo[servoNum].read() >= MAX_DEGREES) {
-    servo[servoNum].write((MAX_DEGREES - MIN_DEGREES) / 2 );
-    delay(1000);
-    servo[servoNum].write(MAX_DEGREES);
-  }
-}
-
-void servoReset(int servoNum) {
-  servo[servoNum].write(0);
+  if ((servo[servoNum].read() < MAX_DEGREES) && (servo[servoNum].read() > MIN_DEGREES))
+    servo[servoNum].write(90 - (notificationNum * mult)); // Move servo a multiplication of degrees // else if (servo[servoNum].read() >= MAX_DEGREES) {
+  Serial.println("Handled");
 }
 
 void loop() {
